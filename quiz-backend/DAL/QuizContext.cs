@@ -16,5 +16,8 @@ namespace quiz_backend.DAL
             : base(options)
         {
         }
+
+
+        public DbSet<quiz_backend.Models.Quiz> Quiz { get; set; }
     }
 }

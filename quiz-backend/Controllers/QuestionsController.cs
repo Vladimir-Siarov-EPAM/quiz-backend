@@ -31,10 +31,20 @@ namespace quiz_backend.Controllers
             return this.context.Questions;
         }
 
+        // GET api/questions
+        [HttpGet("{quizId}")]
+        public ActionResult<IEnumerable<Question>> Get([FromRoute] int quizId)
+        {
+            return this.context.Questions.Where(q => q.QuizId == quizId).ToArray();
+        }
+
         // POST api/questions
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Question question)
         {
+            if (this.context.Quiz.All(q => q.ID != question.QuizId))
+                return NotFound(new { Error = "question.QuizId is invalid" });
+
             context.Questions.Add(question);
             await context.SaveChangesAsync();
 
